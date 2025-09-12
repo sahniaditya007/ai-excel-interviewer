@@ -23,4 +23,22 @@ class InterviewEval(BaseModel):
     overall_assessment: Literal["Excellent", "Good", "Average", "Needs Improvement"] = Field(
     description="A single, overall assessment of the candidate's answer."
     )
-    
+
+class GeneratedQuestion(BaseModel):
+    question_text: str = Field(
+    description="The full text of the generated interview question."
+    )
+    topic: str = Field(
+        description="The specific Excel topic this question covers (e.g., 'Pivot Tables', 'Lookups')."
+    )
+    difficulty: Literal["Easy", "Medium", "Hard"] = Field(
+        description="The assessed difficulty of the question."
+    )
+
+class QuestionValidationResult(BaseModel):
+    is_valid: bool = Field(
+        description="A boolean flag indicating if the question is valid (true) or not (false)."
+    )
+    reasoning: str = Field(
+        description="A brief explanation for the validation decision. If not valid, explain why (e.g., 'too ambiguous', 'not an Excel topic')."
+    )
