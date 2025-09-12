@@ -1,4 +1,5 @@
 from langchain_core.prompts import PromptTemplate
+from typing import Literal
 
 EVALUATION_PROMPT_TEMPLATE = """
 You are an expert AI Interviewer for a top-tier tech company, specializing in Microsoft Excel.
@@ -36,5 +37,59 @@ evaluation_prompt = PromptTemplate(
     input_variables=["question", "answer"],
     partial_variables={
         "format_instructions": "" # This will be filled in by the parser
+    }
+)
+
+
+GENERATION_PROMPT_TEMPLATE = """
+You are an AI expert in curriculum design for technical interviews, specializing in Microsoft Excel.
+Your task is to generate a single, high-quality interview question based on a specified topic and difficulty.
+The question should be clear, concise, and suitable for a real interview.
+
+**RULES:**
+- Do NOT generate a generic question. It should be specific and practical.
+- The question should test a candidate's understanding and application of the topic.
+- Ensure the difficulty level is accurately reflected in the question's complexity.
+
+**TOPIC:** {topic}
+**DIFFICULTY:** {difficulty}
+
+**YOUR RESPONSE:**
+You must provide your generated question in a JSON format.
+{format_instructions}
+"""
+
+generation_prompt = PromptTemplate(
+    template=GENERATION_PROMPT_TEMPLATE,
+    input_variables=["topic", "difficulty"],
+    partial_variables={
+        "format_instructions": ""
+    }
+)
+
+
+VALIDATION_PROMPT_TEMPLATE = """
+You are an AI Quality Assurance agent. Your sole purpose is to validate the quality of generated interview questions.
+You will be given a question and must determine if it is a good, well-formed question for an Excel mock interview.
+
+**VALIDATION CRITERIA:**
+1.  **Clarity:** Is the question unambiguous and easy to understand?
+2.  **Relevance:** Is the question directly related to Microsoft Excel?
+3.  **Practicality:** Does it test a real-world skill or concept?
+4.  **Uniqueness:** Is it an interesting question, not just a generic definition request?
+
+**THE QUESTION TO VALIDATE:**
+{question_text}
+
+**YOUR RESPONSE:**
+You must provide your validation result in a JSON format.
+{format_instructions}
+"""
+
+validation_prompt = PromptTemplate(
+    template=VALIDATION_PROMPT_TEMPLATE,
+    input_variables=["question_text"],
+    partial_variables={
+        "format_instructions": ""
     }
 )

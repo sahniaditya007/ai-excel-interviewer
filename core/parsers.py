@@ -1,7 +1,7 @@
 from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import Literal
 
-class InterviewEval(BaseModel):
+class InterviewEvaluation(BaseModel):
     score_correctness: int = Field(
         description="The score from 1 to 5 for the technical correctness of the answer.",
         ge=1,
