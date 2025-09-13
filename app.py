@@ -69,7 +69,7 @@ else:
         submit_button = st.form_submit_button(label='Submit Answer for Evaluation')
 
     if submit_button and user_answer.strip():
-        with st.spinner("🧠 AI is evaluating your answer..."):
+        with st.spinner("AI is evaluating your answer..."):
             try:
                 evaluation_result = evaluation_chain.invoke({
                     "question": current_q['question_text'],
@@ -82,7 +82,7 @@ else:
                     "feedback": evaluation_result
                 })
 
-                st.subheader("📊 Evaluation Feedback")
+                st.subheader("Evaluation Feedback")
                 st.success(f"**Overall Assessment:** {evaluation_result['overall_assessment']}")
                 
                 col1, col2, col3 = st.columns(3)
