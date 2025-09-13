@@ -4,3 +4,4 @@ langchain-huggingface
 langchain-core
 pydantic
 python-dotenv
+langchain-google-genai
