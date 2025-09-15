@@ -19,7 +19,6 @@ if 'question_count' not in st.session_state:
 if 'interview_log' not in st.session_state:
     st.session_state.interview_log = []
 
-@st.cache_data(show_spinner="Generating a new question, please wait...")
 def get_new_interview_question(difficulty: str) -> Dict | None:
     # Import inside function to reduce cold start
     for attempt in range(MAX_VALIDATION_ATTEMPTS):
