@@ -3,18 +3,18 @@ from typing import Literal
 
 class InterviewEvaluation(BaseModel):
     score_correctness: int = Field(
-        description="The score from 1 to 5 for the technical correctness of the answer.",
-        ge=1,
+        description="The score from 0 to 5 for the technical correctness of the answer.",
+        ge=0,
         le=5
     )
     score_efficiency: int = Field(
-    description="The score from 1 to 5 for the efficiency of the proposed solution. E.g., using INDEX/MATCH over VLOOKUP where appropriate.",
-    ge=1,
+    description="The score from 0 to 5 for the efficiency of the proposed solution. E.g., using INDEX/MATCH over VLOOKUP where appropriate.",
+    ge=0,
     le=5
     )
     score_clarity: int = Field(
-    description="The score from 1 to 5 for the clarity of the candidate's explanation.",
-    ge=1,
+    description="The score from 0 to 5 for the clarity of the candidate's explanation.",
+    ge=0,
     le=5
     )
     feedback: str = Field(

@@ -64,8 +64,12 @@ else:
     st.info(f"**Difficulty:** {current_q['difficulty']}")
     st.header(current_q['question_text'])
 
+    # Clear answer field when a new question is started
+    if 'last_question_id' not in st.session_state or st.session_state.last_question_id != current_q.get('id', id(current_q)):
+        st.session_state['user_answer'] = ''
+        st.session_state['last_question_id'] = current_q.get('id', id(current_q))
     with st.form(key='answer_form'):
-        user_answer = st.text_area("Your Answer:", height=250, placeholder="Provide a detailed, professional answer...")
+        user_answer = st.text_area("Your Answer:", height=250, placeholder="Provide a detailed, professional answer...", key='user_answer')
         submit_button = st.form_submit_button(label='Submit Answer for Evaluation')
 
     if submit_button and user_answer.strip():
@@ -86,9 +90,13 @@ else:
                 st.success(f"**Overall Assessment:** {evaluation_result['overall_assessment']}")
                 
                 col1, col2, col3 = st.columns(3)
-                col1.metric("Correctness", f"{evaluation_result['score_correctness']}/5")
-                col2.metric("Efficiency", f"{evaluation_result['score_efficiency']}/5")
-                col3.metric("Clarity", f"{evaluation_result['score_clarity']}/5")
+                # Clamp scores to 0-5 and display as 0/5 to 5/5
+                score_correctness = max(0, min(5, int(evaluation_result.get('score_correctness', 0))))
+                score_efficiency = max(0, min(5, int(evaluation_result.get('score_efficiency', 0))))
+                score_clarity = max(0, min(5, int(evaluation_result.get('score_clarity', 0))))
+                col1.metric("Correctness", f"{score_correctness}/5", delta=None, delta_color="off")
+                col2.metric("Efficiency", f"{score_efficiency}/5", delta=None, delta_color="off")
+                col3.metric("Clarity", f"{score_clarity}/5", delta=None, delta_color="off")
 
                 st.info(f"**Detailed Feedback:**\n\n{evaluation_result['feedback']}")
 

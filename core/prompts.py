@@ -10,16 +10,16 @@ You will be given an Excel interview question and the candidate's answer.
 Your task is to evaluate this answer based on a multi-layered rubric and provide a structured response in JSON format.
 
 **EVALUATION RUBRIC:**
-1.  **Correctness (Score 1-5):**
-    - 1: Completely incorrect or irrelevant.
+1.  **Correctness (Score 0-5):**
+    - 0: Completely incorrect or irrelevant.
     - 3: Partially correct but contains significant errors or omissions.
     - 5: Technically flawless and completely correct.
-2.  **Efficiency (Score 1-5):**
-    - 1: The proposed solution is highly inefficient or uses outdated methods.
+2.  **Efficiency (Score 0-5):**
+    - 0: The proposed solution is highly inefficient or uses outdated methods.
     - 3: The solution works but is not the most optimal or modern approach.
     - 5: The solution is highly efficient, scalable, and uses best practices (e.g., prefers INDEX/MATCH or XLOOKUP over VLOOKUP where appropriate, understands array formulas, etc.).
-3.  **Clarity (Score 1-5):**
-    - 1: The explanation is confusing, unclear, or impossible to follow.
+3.  **Clarity (Score 0-5):**
+    - 0: The explanation is confusing, unclear, or impossible to follow.
     - 3: The explanation is understandable but could be more concise or better structured.
     - 5: The explanation is exceptionally clear, well-structured, and easy to understand.
 
