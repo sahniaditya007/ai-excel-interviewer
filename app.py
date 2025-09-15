@@ -1,7 +1,14 @@
+
 import streamlit as st
-import random
 from typing import Dict
-from core.chain import generation_chain, validation_chain, evaluation_chain
+
+# Cache the chain objects to avoid re-importing/re-initializing on every rerun
+@st.cache_resource
+def get_chains():
+    from core.chain import generation_chain, validation_chain, evaluation_chain
+    return generation_chain, validation_chain, evaluation_chain
+
+generation_chain, validation_chain, evaluation_chain = get_chains()
 
 MAX_VALIDATION_ATTEMPTS = 3
 
@@ -14,6 +21,7 @@ if 'interview_log' not in st.session_state:
 
 @st.cache_data(show_spinner="Generating a new question, please wait...")
 def get_new_interview_question(difficulty: str) -> Dict | None:
+    # Import inside function to reduce cold start
     for attempt in range(MAX_VALIDATION_ATTEMPTS):
         try:
             generated_q = generation_chain.invoke({
@@ -28,8 +36,7 @@ def get_new_interview_question(difficulty: str) -> Dict | None:
             else:
                 st.warning(f"Generated question was rejected. Reason: {validation_result['reasoning']}. Retrying...")
         except Exception as e:
-            import traceback
-            st.error(f"An error occurred during question generation/validation: {e}\n{traceback.format_exc()}")
+            st.error(f"An error occurred during question generation/validation: {e}")
             continue
     st.error("Failed to generate a valid question after multiple attempts. Please try different parameters.")
     return None
