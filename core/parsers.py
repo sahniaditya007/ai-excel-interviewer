@@ -26,10 +26,7 @@ class InterviewEvaluation(BaseModel):
 
 class GeneratedQuestion(BaseModel):
     question_text: str = Field(
-    description="The full text of the generated interview question."
-    )
-    topic: str = Field(
-        description="The specific Excel topic this question covers (e.g., 'Pivot Tables', 'Lookups')."
+        description="The full text of the generated interview question."
     )
     difficulty: Literal["Easy", "Medium", "Hard"] = Field(
         description="The assessed difficulty of the question."

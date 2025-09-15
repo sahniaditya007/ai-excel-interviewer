@@ -43,15 +43,14 @@ evaluation_prompt = PromptTemplate(
 
 GENERATION_PROMPT_TEMPLATE = """
 You are an AI expert in curriculum design for technical interviews, specializing in Microsoft Excel.
-Your task is to generate a single, high-quality interview question based on a specified topic and difficulty.
+Your task is to generate a single, high-quality interview question based on a specified difficulty.
 The question should be clear, concise, and suitable for a real interview.
 
 **RULES:**
 - Do NOT generate a generic question. It should be specific and practical.
-- The question should test a candidate's understanding and application of the topic.
+- The question should test a candidate's understanding and application of Excel concepts.
 - Ensure the difficulty level is accurately reflected in the question's complexity.
 
-**TOPIC:** {topic}
 **DIFFICULTY:** {difficulty}
 
 **YOUR RESPONSE:**
@@ -61,7 +60,7 @@ You must provide your generated question in a JSON format.
 
 generation_prompt = PromptTemplate(
     template=GENERATION_PROMPT_TEMPLATE,
-    input_variables=["topic", "difficulty"],
+    input_variables=["difficulty"],
     partial_variables={
         "format_instructions": ""
     }

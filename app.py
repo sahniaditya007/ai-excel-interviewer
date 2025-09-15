@@ -13,19 +13,15 @@ if 'interview_log' not in st.session_state:
     st.session_state.interview_log = []
 
 @st.cache_data(show_spinner="Generating a new question, please wait...")
-def get_new_interview_question(topic: str, difficulty: str) -> Dict | None:
-
+def get_new_interview_question(difficulty: str) -> Dict | None:
     for attempt in range(MAX_VALIDATION_ATTEMPTS):
         try:
             generated_q = generation_chain.invoke({
-                "topic": topic,
                 "difficulty": difficulty
             })
-
             validation_result = validation_chain.invoke({
                 "question_text": generated_q['question_text']
             })
-
             if validation_result['is_valid']:
                 st.toast(f"Generated a new question (Attempt {attempt + 1})", icon="✅")
                 return generated_q
@@ -35,7 +31,6 @@ def get_new_interview_question(topic: str, difficulty: str) -> Dict | None:
             import traceback
             st.error(f"An error occurred during question generation/validation: {e}\n{traceback.format_exc()}")
             continue
-    
     st.error("Failed to generate a valid question after multiple attempts. Please try different parameters.")
     return None
 
@@ -45,11 +40,10 @@ st.markdown("This AI generates unique questions on the fly and evaluates your an
 
 with st.sidebar:
     st.header("Interview Controls")
-    topic = st.selectbox("Choose a topic:", ["Lookups", "Pivot Tables", "Formulas", "Data Cleaning"])
     difficulty = st.selectbox("Choose a difficulty:", ["Easy", "Medium", "Hard"])
 
     if st.button("Start New Interview / Get New Question"):
-        st.session_state.current_question = get_new_interview_question(topic, difficulty)
+        st.session_state.current_question = get_new_interview_question(difficulty)
         st.session_state.question_count += 1
 
 st.divider()
@@ -61,7 +55,7 @@ else:
     
     progress_text = f"Question #{st.session_state.question_count}"
     st.subheader(progress_text)
-    st.info(f"**Topic:** {current_q['topic']} | **Difficulty:** {current_q['difficulty']}")
+    st.info(f"**Difficulty:** {current_q['difficulty']}")
     st.header(current_q['question_text'])
 
     with st.form(key='answer_form'):
